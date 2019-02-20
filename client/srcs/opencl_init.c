@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/06/18 11:30:12 by aabelque          #+#    #+#             */
-/*   Updated: 2018/12/11 14:53:42 by aabelque         ###   ########.fr       */
+/*   Created: 2019/02/16 16:50:04 by aabelque          #+#    #+#             */
+/*   Updated: 2019/02/16 16:50:07 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "client.h"
 
-void				set_opencl_env(t_opencl *opcl)
+void				set_opencl_env(t_env *env, t_opencl *opcl)
 {
 	opcl->dev_type = CL_DEVICE_TYPE_CPU;
 	opcl->err = 0;
@@ -26,11 +26,11 @@ void				set_opencl_env(t_opencl *opcl)
 	opcl->input_cam = NULL;
 	opcl->structobj = NULL;
 	opcl->output = NULL;
-	opcl->imgxy[0] = WIN_WIDTH;
-	opcl->imgxy[1] = WIN_HEIGHT;
+	opcl->imgxy[0] = env->win_width;
+	opcl->imgxy[1] = env->win_height;
 	opcl->kernel = NULL;
-	opcl->origin[0] = WIN_WIDTH;
-	opcl->origin[1] = WIN_HEIGHT;
+	opcl->origin[0] = env->win_width;
+	opcl->origin[1] = env->win_height;
 	opcl->origin[2] = 1;
 	ft_bzero(opcl->region, sizeof(size_t) * 3);
 }

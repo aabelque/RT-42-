@@ -6,7 +6,7 @@
 /*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 12:00:40 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/06 17:40:43 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/16 17:02:49 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_object		add_new_sphere_xml(int fd, int chx)
 
 t_object		add_new_plane_xml(int fd, int chx)
 {
-	char		**line;
 	t_object	plane;
 
 	plane = get_template_object();
@@ -72,6 +71,7 @@ t_object		add_new_cone_xml(int fd, int chx)
 	t_object	cone;
 
 	cone = get_template_object();
+	cone.direction = vector(0, 0, 1);
 	cone.typpe = CONE;
 	cone = parse_object_xml(fd, &cone, chx);
 	cone.direction = rotate_cone_angles(cone, cone.direction, 1);
@@ -96,6 +96,7 @@ t_object		add_new_cylinder_xml(int fd, int chx)
 	t_object	cylinder;
 
 	cylinder = get_template_object();
+	cylinder.direction = vector(0, 0, 1);
 	cylinder.typpe = CYLINDER;
 	cylinder = parse_object_xml(fd, &cylinder, chx);
 	cylinder.direction = rotate_cylinder_angles(cylinder,

@@ -15,6 +15,7 @@ HELPER_REP = helpers/
 PARSER_XML_REP = parser_xml/
 PARSER_RT_REP = parser_rt/
 SHAPES_REP = shapes/
+
 SRCS = main.c \
 		env_init.c \
 		serialize.c \
@@ -60,16 +61,16 @@ O_SRCS = $(SRC:.c=.o)
 
 W_FLAGS = -Wall -Wextra -Werror
 
-MLX_FLAGS = -I ~/Library -g -L ~/Library -lmlx -framework OpenGL -framework \
+MLX_FLAGS = -I ~/Library -L ~/Library -lmlx -framework OpenGL -framework \
 			AppKit -framework OpenCL
 
-MLX_FLAGS_LOCAL = -I $(MLX) -g -L $(MLX) -lmlx -framework OpenGL -framework \
+MLX_FLAGS_LOCAL = -I $(MLX) -L $(MLX) -lmlx -framework OpenGL -framework \
 			AppKit -framework OpenCL
 
 MATH_FLAG = -lm
 
 $(REP): $(O_SRCS)
-	gcc -g $(INCLUDE_FLAG) $(MLX_FLAGS_LOCAL) $(MATH_FLAG) $(SRC) $(LIBFT) -o $(NAME)
+	gcc $(INCLUDE_FLAG) $(W_FLAGS) $(MLX_FLAGS_LOCAL) $(MATH_FLAG) $(SRC) $(LIBFT) -o $(NAME)
 	mv $(NAME) ../
 	@echo "\033[3;32m[ ✔ ] RT ready.\033[0m"
 

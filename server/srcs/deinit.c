@@ -6,7 +6,7 @@
 /*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/22 11:46:21 by jmlynarc          #+#    #+#             */
-/*   Updated: 2018/12/21 10:58:12 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/16 19:02:26 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,5 @@ void			deinit_env(t_env *env)
 		mlx_destroy_image(env->mlx_ptr, env->img_ptr);
 	if (env->win_ptr && env->mlx_ptr)
 		mlx_destroy_window(env->mlx_ptr, env->win_ptr);
-	ft_memdel((void**)(&(env->mlx_ptr)));
-	ft_memdel((void**)(env));
+	ft_memdel((void**)(&env));
 }

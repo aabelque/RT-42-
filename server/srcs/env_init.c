@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmlynarc <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/22 11:46:27 by jmlynarc          #+#    #+#             */
-/*   Updated: 2019/01/06 17:44:30 by aabelque         ###   ########.fr       */
+/*   Created: 2019/02/16 16:47:21 by aabelque          #+#    #+#             */
+/*   Updated: 2019/02/16 17:13:25 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ static void		setup_window(t_env *env)
 	int		endian;
 
 	env->mlx_ptr = mlx_init();
-	env->win_ptr = mlx_new_window(env->mlx_ptr, WIN_WIDTH, WIN_HEIGHT,
-		"RT v1");
-	env->win_height = WIN_HEIGHT;
-	env->win_width = WIN_WIDTH;
+	env->win_width = env->scene.sett.render_w;
+	env->win_height = env->scene.sett.render_h;
+	env->win_ptr = mlx_new_window(env->mlx_ptr, env->win_width, env->win_height,
+		"RT");
 	if (env->mlx_ptr == NULL || env->win_ptr == NULL)
 		exit_error(env);
 	env->img_ptr = mlx_new_image(env->mlx_ptr, env->win_width, env->win_height);
-	env->img_width = WIN_WIDTH;
-	env->img_height = WIN_HEIGHT;
+	env->img_width = env->win_width;
+	env->img_height = env->win_height;
 	env->img_str = mlx_get_data_addr(env->img_ptr, &bpp, &s_l,
 		&endian);
 	if (env->img_ptr == NULL || env->img_str == NULL)
@@ -50,8 +50,8 @@ t_env			*init_env(t_env *env, char *file_name)
 	setup_window(env);
 	env->camera = init_camera(env);
 	if (env->chx == 1)
-		env->scene = create_scene_xml(env, file_name, fd);
+		env->scene = create_scene_xml(env, fd);
 	else
-		env->scene = create_scene(env, file_name, fd);
+		env->scene = create_scene(env, fd);
 	return (env);
 }

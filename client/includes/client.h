@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   client.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/10 15:29:01 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/03 17:31:32 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/16 17:01:21 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@
 ** ======= macros
 */
 
-# define WIN_HEIGHT 600
-# define WIN_WIDTH 900
+# define DEFAULT_SIZE 100
 # define FOV 0.50
 
 # define KEY_ESC 53
@@ -221,6 +220,19 @@ typedef struct				s_camera
 	int					bottom_line;
 }							t_camera;
 
+typedef struct				s_settings
+{
+	int					gl_enabled;
+	int					bshadows;
+	unsigned int		depth;
+	unsigned int		aliasing;
+	unsigned int		spread;
+	unsigned int		sep;
+	unsigned int		gl_sampling;
+	unsigned int		render_w;
+	unsigned int		render_h;
+}							t_settings;
+
 typedef struct				s_scene
 {
 	t_object			*objects;
@@ -231,6 +243,7 @@ typedef struct				s_scene
 	int					bottom_bound;
 	t_color				theme;
 	float				power;
+	t_settings			sett;
 }							t_scene;
 
 typedef	struct				s_opencl
@@ -337,23 +350,23 @@ void						*loop_data(void *arg);
 void						loop_recv(t_env *e);
 void						*waitcl(void *arg);
 void						exit_usage2(void);
-t_env						*init_env2(void);
+void						init_env2(t_env *env);
 void						deserialize_obj(char *data, t_object *obj);
 void						deserialize_pt(char *data, t_point *obj);
 void						deserialize_float(float *data, t_object *obj);
 void						deserialize_light(char *data, t_light *light);
 int							error_gpu(t_opencl *opcl);
+void						opencl_init(t_opencl *opcl, t_env *env);
 void						opencl_init2(t_opencl *opcl, t_env *e);
 void						opencl_draw(t_opencl *opcl, t_env *e);
-void						set_opencl_env(t_opencl *opcl);
+void						opencl_free(t_opencl *opcl);
+void						set_opencl_env(t_env *env, t_opencl *opcl);
 void						create_kernel(cl_program program,
 		cl_kernel *kernel, const char *func);
 char						*get_kernel_source(char *file);
-void						opencl_init(t_opencl *opcl, t_env *env);
 void						create_prog(t_opencl *opcl);
 void						exit_error(t_env *env);
 void						exit_normally(t_env *env);
-void						exit_usage(void);
 void						exit_invalid_file(void);
 t_env						*init_env(t_env *env, char *file_name);
 void						calculate_scene(t_env *env);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rtv1.h                                             :+:      :+:    :+:   */
+/*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aabelque <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: guillaume <guillaume@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/23 15:37:32 by aabelque          #+#    #+#             */
-/*   Updated: 2019/01/09 17:48:27 by aabelque         ###   ########.fr       */
+/*   Updated: 2019/02/16 18:23:32 by aabelque         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@
 ** ======= macros
 */
 
-# define WIN_HEIGHT 600
-# define WIN_WIDTH 900
 # define FOV 0.50
 
 # define KEY_ESC 53
@@ -220,6 +218,19 @@ typedef struct				s_camera
 	int					bottom_line;
 }							t_camera;
 
+typedef struct				s_settings
+{
+	int					gl_enabled;
+	int					bshadows;
+	unsigned int		depth;
+	unsigned int		aliasing;
+	unsigned int		spread;
+	unsigned int		sep;
+	unsigned int		gl_sampling;
+	unsigned int		render_w;
+	unsigned int		render_h;
+}							t_settings;
+
 typedef struct				s_scene
 {
 	t_object			*objects;
@@ -228,6 +239,7 @@ typedef struct				s_scene
 	int					lights_count;
 	t_color				theme;
 	float				power;
+	t_settings			sett;
 }							t_scene;
 
 typedef	struct				s_opencl
@@ -334,7 +346,6 @@ void						create_srv(t_env *e);
 void						init_env_server(t_env *e);
 void						*loop_data(void *arg);
 void						*waitcl(void *arg);
-void						exit_usage2(void);
 t_env						*init_env2(void);
 void						serialize_obj(t_object *obj, char *data);
 void						serialize_light(t_light *light, char *data);
@@ -397,9 +408,8 @@ t_light						*add_light_xml(int fd, t_light *existing_lights,
 		int count, int chx);
 t_object					add_new_object_xml(int fd, char *type, int chx);
 t_object					add_new_object(int fd, char *type, int chx);
-t_scene						create_scene_xml(t_env *env, char *file_name,
-		int fd);
-t_scene						create_scene(t_env *env, char *file_name, int fd);
+t_scene						create_scene_xml(t_env *env, int fd);
+t_scene						create_scene(t_env *env, int fd);
 t_object					cylinder_intersection(t_object ray,
 		t_object cylinder);
 t_object					cone_intersection(t_object ray, t_object cone,
@@ -432,10 +442,10 @@ t_object					*expand_objects(t_object *objects,
 		int previous_count);
 t_vector					point_from_vector(t_point origin,
 		t_vector direction, float norm);
-t_scene						create_dependant_objects(t_object object, int fd,
+t_scene						create_dependant_objects(t_object object,
 		t_scene scene, int id);
 t_scene						create_dependant_objects_xml(t_object object,
-		int fd, t_scene scene, int id);
+		t_scene scene, int id);
 t_vector					rotate_cylinder_angles(t_object cylinder,
 		t_vector vect, int reverse);
 t_vector					rotate_cone_angles(t_object cone, t_vector vect,
@@ -445,4 +455,9 @@ t_vector					rotate_vector_angles(t_object reference,
 t_vector					cross_product(t_vector vect_1, t_vector vect_2);
 t_object					get_template_object(void);
 int							is_empty(char *line);
+void						local_client(t_env *e);
+int							parse_arg(t_env *e, char **av);
+int							choose_rt_or_xml(char *av);
+int							has_alpha(char *s);
+
 #endif
